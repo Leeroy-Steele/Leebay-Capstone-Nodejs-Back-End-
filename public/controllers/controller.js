@@ -54,7 +54,11 @@ const deleteUser = async (req,res)=>{
 
 const findUser = async (req,res)=>{
     console.log("findUser controller here")
-    let resp = dbServices.findUser(req,null)
+
+    let email = req.body.email
+    let user_name = req.body.user_name
+
+    let resp = dbServices.findUser(email,null,user_name)    // specify either user email / id / user name
 
     res.json(await resp)
     
@@ -96,7 +100,10 @@ const deleteAuctionItem = async (req,res)=>{
 
 const findAllAuctionItems = async (req,res)=>{
     console.log("findAllAuctionItems controller here")
-    let resp = dbServices.findAllAuctionItems(req,res)
+
+    let user_id = req.query.user_id           //finalise this part *******
+
+    let resp = dbServices.findAllAuctionItems(user_id)
 
     res.json(await resp)
     
@@ -177,7 +184,7 @@ const checkDatabaseForExpiredAuctions = async ()=>{
 
     for(let expiredItem in results){   
         let seller_id = await results[expiredItem].seller_user_id   
-        let userData = await dbServices.findUser(null,seller_id)
+        let userData = await dbServices.findUser(null,seller_id,null)
         
         results[expiredItem].seller_user_name = userData[0].user_name
         results[expiredItem].seller_email = userData[0].email
@@ -186,7 +193,7 @@ const checkDatabaseForExpiredAuctions = async ()=>{
     }
   
 }
-// setInterval(checkDatabaseForExpiredAuctions,3000)    //regular check for expired auctions  
+setInterval(checkDatabaseForExpiredAuctions,10000)    //regular check for expired auctions  
 
 const storeImageURLToDatabase=async(url,req)=>{
     // console.log(req.body)

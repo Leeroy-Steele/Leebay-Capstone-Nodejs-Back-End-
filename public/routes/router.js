@@ -2,15 +2,9 @@ var express = require('express');
 var router = express.Router();
 let controller = require('../controllers/controller')
 
-// let x = require('../../../capstone_react_frontend/src/images')
-
-////// routes start here
-
-// //// Multer starts here
+// //// Multer starts here  (For image upload)
 
 const multer = require('multer')
-
-//multer options
 
 const storage = multer.diskStorage({
     destination: function (req, file, cb) {
@@ -42,12 +36,7 @@ const upload = multer({
         }
 })
 
-router.post('/addAuctionPhoto', upload.single('auctionImage'), (req, res) => {
-
-    res.send('worked!')
-    }, (error, req, res, next) => {
-    res.status(400).send({error: error.message})
-})
+////// routes start here
 
 //// users table actions
 
@@ -61,7 +50,7 @@ router.delete('/deleteUser',(req,res)=>{
     controller.deleteUser(req,res)
 })
 
-router.get('/findUser',(req,res)=>{
+router.post('/findUser',(req,res)=>{
     console.log("findUser router here")
     controller.findUser(req,res)
 })
@@ -76,6 +65,12 @@ router.post('/findUserAndPassword',(req,res)=>{
 router.post('/addAuctionItem',(req,res)=>{
     console.log("addAuctionItem router here")
     controller.addAuctionItem(req,res)
+})
+
+router.post('/addAuctionPhoto', upload.single('auctionImage'), (req, res) => {
+    res.send('worked!')
+    }, (error, req, res, next) => {
+    res.status(400).send({error: error.message})
 })
 
 router.delete('/deleteAuctionItem',(req,res)=>{

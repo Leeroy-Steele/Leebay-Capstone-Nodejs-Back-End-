@@ -34,21 +34,14 @@ let deleteUser = async (req,res)=>{
     });
 }
 
-let findUser = async (req,id)=>{   //find user by either id or name 
+let findUser = async (email,id,userName)=>{   //find user by either id or name 
     console.log("db services findUser here")
 
-    let user_name = ''
-    let user_id = ''
 
-    if(id){user_id =id}
-    else{
-        user_name = req.body.user_name
-        user_id = req.body.user_id
-    }
 
-    if(user_id){
+    if(id){
         return new Promise((resolve, reject) => {
-            let sqlQuery = `SELECT * FROM users WHERE user_id='${user_id}'`;
+            let sqlQuery = `SELECT * FROM users WHERE user_id='${id}'`;
             
             sql.query(sqlQuery, (err, result, field) => {
                 if(err) return reject(err);
@@ -58,9 +51,9 @@ let findUser = async (req,id)=>{   //find user by either id or name
             });
         });
     }
-    else if(user_name){
+    else if(email){
         return new Promise((resolve, reject) => {
-            let sqlQuery = `SELECT * FROM users WHERE user_name='${user_name}'`;
+            let sqlQuery = `SELECT * FROM users WHERE email='${email}'`;
             
             sql.query(sqlQuery, (err, result, field) => {
                 if(err) return reject(err);
@@ -70,7 +63,19 @@ let findUser = async (req,id)=>{   //find user by either id or name
             });
         });
     }
-    else{return "specify name or id"}
+    else if(userName){
+        return new Promise((resolve, reject) => {
+            let sqlQuery = `SELECT * FROM users WHERE user_name='${userName}'`;
+            
+            sql.query(sqlQuery, (err, result, field) => {
+                if(err) return reject(err);
+                
+                resolve(Object.values(result));
+                
+            });
+        });
+    }
+    else{return "specify name, id or user name"}
 
 
 }
@@ -123,6 +128,17 @@ let addAuctionItem = async (req,res)=>{
     let item_description = req.body.item_description
     let current_price = req.body.current_price
     let end_date = req.body.end_date
+
+   console.log(seller_user_id )
+  console.log( highest_bidder_id)
+   console.log(category )
+   console.log(image_path)
+
+   console.log(auction_title)
+   console.log(item_location )
+   console.log(item_description )
+  console.log( current_price )
+   console.log(end_date )
 
     return new Promise((resolve, reject) => {
         let sqlQuery1 = `INSERT INTO auction_items (
@@ -189,19 +205,39 @@ let deleteAuctionItem = async (req,res)=>{
     });
 }
 
-let findAllAuctionItems = async (req,res)=>{
-    console.log("db services findAllAuctionItems here")
+let findAllAuctionItems = async (user_id)=>{
+    console.log("db services findAllAuctionItems here",user_id)
 
-    return new Promise((resolve, reject) => {
-        let sqlQuery = `SELECT * FROM auction_items`;
-        
-        sql.query(sqlQuery, (err, result, field) => {
-            if(err) return reject(err);
+    if (user_id!=null){
+
+        return new Promise((resolve, reject) => {
+            let sqlQuery = `SELECT * FROM auction_items WHERE seller_user_id=${user_id}`;
             
-            resolve(Object.values(result));
-            
+            sql.query(sqlQuery, (err, result, field) => {
+                if(err) return reject(err);
+                
+                resolve(Object.values(result));
+                
+            });
         });
-    });
+
+    }
+    else{
+
+        return new Promise((resolve, reject) => {
+            let sqlQuery = `SELECT * FROM auction_items`;
+            
+            sql.query(sqlQuery, (err, result, field) => {
+                if(err) return reject(err);
+                
+                resolve(Object.values(result));
+                
+            });
+        });
+
+    }
+
+
 }
 
 let findAuctionItem = async (auction_id)=>{
