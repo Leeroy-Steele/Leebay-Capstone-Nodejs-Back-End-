@@ -114,54 +114,43 @@ let getAllUsers = async ()=>{   //find user by either id or name
 
 //// auction_items table actions  
 
-let addAuctionItem = async (req,res)=>{
+let addAuctionItem = async (
+    seller_user_id,
+    highest_bidder_id,
+    category,
+    image_path,
+    auction_title,
+    item_location,
+    item_description,
+    current_price,
+    end_date
+    )=>{
+
     console.log("db services addAuctionItem here")
-
-    // let auction_id = req.body.auction_id
-    let seller_user_id = req.body.seller_user_id
-    let highest_bidder_id = req.body.highest_bidder_id
-    let category = req.body.category
-    let image_path = req.body.image_path
-
-    let auction_title = req.body.auction_title
-    let item_location = req.body.item_location
-    let item_description = req.body.item_description
-    let current_price = req.body.current_price
-    let end_date = req.body.end_date
-
-   console.log(seller_user_id )
-  console.log( highest_bidder_id)
-   console.log(category )
-   console.log(image_path)
-
-   console.log(auction_title)
-   console.log(item_location )
-   console.log(item_description )
-  console.log( current_price )
-   console.log(end_date )
 
     return new Promise((resolve, reject) => {
         let sqlQuery1 = `INSERT INTO auction_items (
-                            seller_user_id,
-                            highest_bidder_id,
-                            category,
-                            image_path,
-                            auction_title,
-                            item_location,
-                            item_description,
-                            current_price,
-                            end_date
-                            )
-                            VALUES(
-                                ${seller_user_id},
-                                ${highest_bidder_id},
-                                "${category}",
-                                "${image_path}",
-                                "${auction_title}","${item_location}",
-                                "${item_description}",
-                                 ${current_price},
-                                "${end_date}"  
-                            )`;
+            seller_user_id,
+            highest_bidder_id,
+            category,
+            image_path,
+            auction_title,
+            item_location,
+            item_description,
+            current_price,
+            end_date
+            )
+            VALUES(
+                ${seller_user_id},
+                ${highest_bidder_id},
+                "${category}",
+                "${image_path}",
+                "${auction_title}",
+                "${item_location}",
+                "${item_description}",
+                    ${current_price},
+                "${end_date}"  
+            )`;
         
         sql.query(sqlQuery1, (err, result, field) => {
             if(err) return reject(err);
@@ -205,13 +194,27 @@ let deleteAuctionItem = async (req,res)=>{
     });
 }
 
-let findAllAuctionItems = async (user_id)=>{
+let findAllAuctionItems = async (user_id,bidder_id)=>{
     console.log("db services findAllAuctionItems here",user_id)
 
-    if (user_id!=null){
+    if (user_id!=undefined){
 
         return new Promise((resolve, reject) => {
             let sqlQuery = `SELECT * FROM auction_items WHERE seller_user_id=${user_id}`;
+            
+            sql.query(sqlQuery, (err, result, field) => {
+                if(err) return reject(err);
+                
+                resolve(Object.values(result));
+                
+            });
+        });
+
+    }
+    if (bidder_id!=undefined){
+
+        return new Promise((resolve, reject) => {
+            let sqlQuery = `SELECT * FROM auction_items WHERE highest_bidder_id=${bidder_id}`;
             
             sql.query(sqlQuery, (err, result, field) => {
                 if(err) return reject(err);
@@ -315,7 +318,9 @@ let findAllAuctionComments = async (auction_id)=>{
     console.log("db services findAllAuctionComments here")
 
     return new Promise((resolve, reject) => {
-        let sqlQuery = `SELECT * FROM auction_comments WHERE auction_id=${auction_id}`;
+        // let sqlQuery = `SELECT * FROM auction_comments WHERE auction_id=${auction_id}`;
+        let sqlQuery = `SELECT users.user_name, auction_comments.comment_text FROM auction_comments 
+        INNER JOIN users ON auction_comments.user_id = users.user_id WHERE auction_id=${auction_id}`;
         
         sql.query(sqlQuery, (err, result, field) => {
             if(err) return reject(err);
@@ -326,8 +331,7 @@ let findAllAuctionComments = async (auction_id)=>{
     });
 }
 
-//// logical operations here (not initiated from http requests)
-
+//// expired auction table actions
 
 let findExpiredAuctionItems = async (req,res)=>{
     console.log("db services findExpiredAuctionItems here")
@@ -389,6 +393,32 @@ let insertClosedAuctionItem = async (item)=>{
 
 });}
 
+let findAllExpiredAuctionItems = async (highest_bidder_id)=>{
+    console.log("db services findAllExpiredAuctionItems here",highest_bidder_id)
+
+    if (highest_bidder_id!=null){
+
+        return new Promise((resolve, reject) => {
+            let sqlQuery = `SELECT * FROM closed_auction_items WHERE highest_bidder_id=${highest_bidder_id}`;
+            
+            sql.query(sqlQuery, (err, result, field) => {
+                if(err) return reject(err);
+                
+                resolve(Object.values(result));
+                
+            });
+        });
+
+    }
+    else{
+
+        return 'Specify highest bidder id'
+
+    }
+
+
+}
+
 
 //// export here
  
@@ -408,7 +438,8 @@ module.exports = {
     storeImageURLToDatabase,
     placeBid,
     findAuctionItem,
-    getAllUsers
+    getAllUsers,
+    findAllExpiredAuctionItems
     
 }
 

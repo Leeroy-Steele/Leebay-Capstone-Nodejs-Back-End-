@@ -83,7 +83,29 @@ const findUserAndPassword = async (req,res)=>{
 
 const addAuctionItem = async (req,res)=>{
     console.log("addAuctionItem controller here")
-    let resp = dbServices.addAuctionItem(req,res)
+
+    let seller_user_id = req.body.seller_user_id
+    let highest_bidder_id = req.body.highest_bidder_id
+    let category = req.body.category
+    let image_path = req.body.image_path
+
+    let auction_title = req.body.auction_title
+    let item_location = req.body.item_location
+    let item_description = req.body.item_description
+    let current_price = req.body.current_price
+    let end_date = req.body.end_date
+
+    let resp = dbServices.addAuctionItem(    
+        seller_user_id,
+        highest_bidder_id,
+        category,
+        image_path,
+        auction_title,
+        item_location,
+        item_description,
+        current_price,
+        end_date
+        )
 
     res.json(await resp)
     
@@ -101,9 +123,10 @@ const deleteAuctionItem = async (req,res)=>{
 const findAllAuctionItems = async (req,res)=>{
     console.log("findAllAuctionItems controller here")
 
-    let user_id = req.query.user_id           //finalise this part *******
+    let user_id = req.query.user_id 
+    let bidder_id = req.query.bidder_id 
 
-    let resp = dbServices.findAllAuctionItems(user_id)
+    let resp = dbServices.findAllAuctionItems(user_id,bidder_id)
 
     res.json(await resp)
     
@@ -154,13 +177,15 @@ const deleteAllAuctionComments = async (req,res)=>{
 const findAllAuctionComments = async (req,res)=>{
     console.log("findAllAuctionComments controller here")
 
-    let auction_id = req.body.auction_id
+    let auction_id = req.query.auction_id
 
     let resp = dbServices.findAllAuctionComments(auction_id)
 
     res.json(await resp)
     
 }
+
+///// expired auction_items actions
 
 const checkDatabaseForExpiredAuctions = async ()=>{
     console.log("checkDatabaseForExpiredAuctions here")
@@ -200,6 +225,18 @@ const storeImageURLToDatabase=async(url,req)=>{
     dbServices.storeImageURLToDatabase(url,req)
 }
 
+
+const findAllExpiredAuctionItems = async (req,res)=>{
+    console.log("findAllExpiredAuctionItems controller here")
+
+    let highest_bidder_id = req.query.highest_bidder_id  
+
+    let resp = dbServices.findAllExpiredAuctionItems(highest_bidder_id)
+
+    res.json(await resp)
+    
+}
+
 //// export here
 
 module.exports = {
@@ -215,6 +252,7 @@ module.exports = {
     findAllAuctionComments,
     storeImageURLToDatabase,
     placeBid,
-    findAuctionItem
+    findAuctionItem,
+    findAllExpiredAuctionItems
     
 }

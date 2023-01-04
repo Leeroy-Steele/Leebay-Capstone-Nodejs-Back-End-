@@ -110,6 +110,13 @@ router.get('/findAllAuctionComments',(req,res)=>{
     controller.findAllAuctionComments(req,res)
 })
 
+//// expired auction_items table actions
+
+router.get('/findAllExpiredAuctionItems',(req,res)=>{
+    console.log("findAllExpiredAuctionItems router here")
+    controller.findAllExpiredAuctionItems(req,res)
+})
+
 //// export here
 
 module.exports = router;
