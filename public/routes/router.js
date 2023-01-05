@@ -1,8 +1,11 @@
 var express = require('express');
 var router = express.Router();
-let controller = require('../controllers/controller')
+let auctionController = require('../controllers/auctionController')
+let automatedController = require('../controllers/automatedController')
+let loginController = require('../controllers/loginController')
+let auctionCommentsController = require('../controllers/auctionCommentsController')
 
-// //// Multer starts here  (For image upload)
+//// Multer starts here  (For image upload)
 
 const multer = require('multer')
 
@@ -19,7 +22,7 @@ const storage = multer.diskStorage({
 })
 
 function storeImageURLToDatabase(fullUrlName,req){
-    controller.storeImageURLToDatabase(fullUrlName,req)
+    auctionController.storeImageURLToDatabase(fullUrlName,req)
 }
 
 const upload = multer({
@@ -42,29 +45,29 @@ const upload = multer({
 
 router.post('/addUser',(req,res)=>{
     console.log("addUser router here")
-    controller.addUser(req,res)
+    loginController.addUser(req,res)
 })
 
 router.delete('/deleteUser',(req,res)=>{
     console.log("deleteUser router here")
-    controller.deleteUser(req,res)
+    loginController.deleteUser(req,res)
 })
 
 router.post('/findUser',(req,res)=>{
     console.log("findUser router here")
-    controller.findUser(req,res)
+    loginController.findUser(req,res)
 })
 
 router.post('/findUserAndPassword',(req,res)=>{
     console.log("findUserAndPassword router here")
-    controller.findUserAndPassword(req,res)
+    loginController.findUserAndPassword(req,res)
 })
 
 //// auction_items table actions
 
 router.post('/addAuctionItem',(req,res)=>{
     console.log("addAuctionItem router here")
-    controller.addAuctionItem(req,res)
+    auctionController.addAuctionItem(req,res)
 })
 
 router.post('/addAuctionPhoto', upload.single('auctionImage'), (req, res) => {
@@ -75,46 +78,46 @@ router.post('/addAuctionPhoto', upload.single('auctionImage'), (req, res) => {
 
 router.delete('/deleteAuctionItem',(req,res)=>{
     console.log("deleteAuctionItem router here")
-    controller.deleteAuctionItem(req,res)
+    auctionController.deleteAuctionItem(req,res)
 })
 
 router.get('/findAllAuctionItems',(req,res)=>{
     console.log("findAllAuctionItems router here")
-    controller.findAllAuctionItems(req,res)
+    auctionController.findAllAuctionItems(req,res)
 })
 
 router.get('/findAuctionItem',(req,res)=>{
     console.log("findAuctionItem router here")
-    controller.findAuctionItem(req,res)
+    auctionController.findAuctionItem(req,res)
 })
 
 router.patch('/placeBid',(req,res)=>{
     console.log("placeBid router here")
-    controller.placeBid(req,res)
+    auctionController.placeBid(req,res)
 })
 
 //// auction comments actions
 
 router.post('/addAuctionComment',(req,res)=>{
     console.log("addAuctionComment router here")
-    controller.addAuctionComment(req,res)
+    auctionCommentsController.addAuctionComment(req,res)
 })
 
 router.delete('/deleteAllAuctionComments',(req,res)=>{
     console.log("deleteAllAuctionComments router here")
-    controller.deleteAllAuctionComments(req,res)
+    auctionCommentsController.deleteAllAuctionComments(req,res)
 })
 
 router.get('/findAllAuctionComments',(req,res)=>{
     console.log("findAllAuctionComments router here")
-    controller.findAllAuctionComments(req,res)
+    auctionCommentsController.findAllAuctionComments(req,res)
 })
 
 //// expired auction_items table actions
 
 router.get('/findAllExpiredAuctionItems',(req,res)=>{
     console.log("findAllExpiredAuctionItems router here")
-    controller.findAllExpiredAuctionItems(req,res)
+    auctionController.findAllExpiredAuctionItems(req,res)
 })
 
 //// export here

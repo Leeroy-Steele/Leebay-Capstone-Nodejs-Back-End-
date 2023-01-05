@@ -1,4 +1,4 @@
-// npm install express  //Set-ExecutionPolicy Unrestricted (for nodemon) // npm install nodemon //npm install cors (Stop browser cors error) //npm install mysql //npm i multer
+// npm install express  //Set-ExecutionPolicy Unrestricted (for nodemon) // npm install nodemon //npm install cors (Stop browser cors error) //npm install mysql //npm i multer //npm install swagger // npm install swagger-ui-express
 
 ////   express generic setup
 
@@ -24,6 +24,14 @@ var connection = mysql.createPool({
 });
 
 module.exports = connection;
+
+
+//swagger starts here
+
+const swaggerUi = require('swagger-ui-express');    
+swaggerDocument = require('./swagger.json');
+app.use('/api-docs',swaggerUi.serve,swaggerUi.setup(swaggerDocument));  // view swagger on http://localhost:3000/api-docs/
+
 
 //// routes start here
 

@@ -1,0 +1,557 @@
+{
+    "swagger": "2.0",
+    "info": {
+        "version": "1.0.0",
+        "title": "Leebay API",
+        "description": "Retrieve, store, update & delete Leebay Users & Auctions",
+        "license": {
+            "name": "No licence",
+            "url": "localhost:4000"
+        }
+    },
+    "host": "localhost:4000",
+    "basePath": "",
+    "tags": [{
+        "name": "Leebay API",
+        "description": ""
+        }],
+
+    "schemes": ["http"],
+
+    "paths": {
+
+        "/addUser": {
+          "post": {
+            "tags": ["User Login Auctions"],
+            "description": "Create new user",
+            "parameters": [
+              {
+                "user_name": "user",
+                "in": "body",
+                "description": "User that we want to create",
+                "schema": {
+                  "$ref": "#/definitions/AddUser"
+                }
+              }
+            ],
+            "produces": ["application/json"],
+            "responses": {
+              "200": {
+                "description": "New user is created",
+                "schema": {
+                  "$ref": "#/definitions/AddUser"
+                }
+              }
+            }
+          }
+        
+        },
+
+
+      "/deleteUser": {
+        "delete": {
+          "tags": ["User Login Auctions"],
+          "description": "Delete user",
+          "parameters": [
+            {
+              "user_name": "user",
+              "in": "body",
+              "description": "User that we want to delete",
+              "schema": {
+                "$ref": "#/definitions/DeleteUser"
+              }
+            }
+          ],
+          "produces": ["application/json"],
+          "responses": {
+            "200": {
+              "description": "New user is created",
+              "schema": {
+                "$ref": "#/definitions/DeleteUser"
+              }
+            }
+          }
+        }
+      },
+
+
+      "/findUser": {
+        "post": {
+          "tags": ["User Login Auctions"],
+          "description": "find User by username and email",
+          "parameters": [
+            {
+              "user_name": "user",
+              "in": "body",
+              "description": "User that we want to find",
+              "schema": {
+                "$ref": "#/definitions/findUser"
+              }
+            }
+          ],
+          "produces": ["application/json"],
+          "responses": {
+            "200": {
+              "description": "New user is created",
+              "schema": {
+                "$ref": "#/definitions/findUser"
+              }
+            }
+          }
+        }
+      },
+
+
+
+      "/findUserAndPassword": {
+        "post": {
+          "tags": ["User Login Auctions"],
+          "description": "find User with email and password",
+          "parameters": [
+            {
+              "user_name": "user",
+              "in": "body",
+              "description": "User that we want to find",
+              "schema": {
+                "$ref": "#/definitions/findUserAndPassword"
+              }
+            }
+          ],
+          "produces": ["application/json"],
+          "responses": {
+            "200": {
+              "description": "New user is created",
+              "schema": {
+                "$ref": "#/definitions/findUserAndPassword"
+              }
+            }
+          }
+        }
+      },
+
+
+      "/addAuctionItem": {
+        "post": {
+          "tags": ["Auction Operations"],
+          "description": "add auction item",
+          "parameters": [
+            {
+              "user_name": "user",
+              "in": "body",
+              "description": "add auction item",
+              "schema": {
+                "$ref": "#/definitions/addAuctionItem"
+              }
+            }
+          ],
+          "produces": ["application/json"],
+          "responses": {
+            "200": {
+              "description": "add auction item",
+              "schema": {
+                "$ref": "#/definitions/addAuctionItem"
+              }
+            }
+          }
+        }
+      },
+
+
+      "/deleteAuctionItem": {
+        "post": {
+          "tags": ["Auction Operations"],
+          "description": "delete Auction",
+          "parameters": [
+            {
+              "user_name": "user",
+              "in": "body",
+              "description": "add auction item",
+              "schema": {
+                "$ref": "#/definitions/deleteAuctionItem"
+              }
+            }
+          ],
+          "produces": ["application/json"],
+          "responses": {
+            "200": {
+              "description": "add auction item",
+              "schema": {
+                "$ref": "#/definitions/deleteAuctionItem"
+              }
+            }
+          }
+        }
+      },
+
+
+      "/placeBid": {
+        "patch": {
+          "tags": ["Auction Operations"],
+          "description": "place auction bid",
+          "parameters": [
+            {
+              "user_name": "user",
+              "in": "body",
+              "description": "place auction bid",
+              "schema": {
+                "$ref": "#/definitions/placeBid"
+              }
+            }
+          ],
+          "produces": ["application/json"],
+          "responses": {
+            "200": {
+              "description": "add auction item",
+              "schema": {
+                "$ref": "#/definitions/placeBid"
+              }
+            }
+          }
+        }
+      },
+
+      "/findAllAuctionItems": {
+        "get": {
+            "tags": [
+            "Auction Operations"
+            ],
+            "summary": "Show all entries in database or select just one by ID",
+            "parameters": [{
+                    "name": "user_id",
+                    "in": "query",
+                    "description": "(Only if you want to retrieve one) enter the user ID of the entry (or)"
+                },
+                {
+                    "name": "bidder_id",
+                    "in": "query",
+                    "description": "(Only if you want to retrieve one) enter the bidder ID"
+                }
+            ],
+            "responses": {
+                "200": {
+                 "description": "Response will be a JSON containing the stored data"
+                }
+            }
+            }
+        },
+
+
+        "/findAuctionItem": {
+            "get": {
+                "tags": [
+                "Auction Operations"
+                ],
+                "summary": "find Auction Item by ID",
+                "parameters": [{
+                    "name": "auction_id",
+                    "in": "query"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Response will be a JSON containing the stored data"
+                    }
+                }
+                }
+            },
+
+        
+
+      "/addAuctionComment": {
+        "post": {
+          "tags": ["Auction Comments"],
+          "description": "add Auction Comment",
+          "parameters": [
+            {
+              "user_name": "user",
+              "in": "body",
+              "description": "place auction comment",
+              "schema": {
+                "$ref": "#/definitions/addAuctionComment"
+              }
+            }
+          ],
+          "produces": ["application/json"],
+          "responses": {
+            "200": {
+              "description": "add auction item",
+              "schema": {
+                "$ref": "#/definitions/addAuctionComment"
+              }
+            }
+          }
+        }
+      },
+
+      
+        
+
+      "/deleteAllAuctionComments": {
+        "delete": {
+          "tags": ["Auction Comments"],
+          "description": "delete Auction Comments",
+          "parameters": [
+            {
+              "user_name": "user",
+              "in": "body",
+              "description": "delete Auction Comments",
+              "schema": {
+                "$ref": "#/definitions/deleteAllAuctionComments"
+              }
+            }
+          ],
+          "produces": ["application/json"],
+          "responses": {
+            "200": {
+              "description": "add auction item",
+              "schema": {
+                "$ref": "#/definitions/deleteAllAuctionComments"
+              }
+            }
+          }
+        }
+      },
+
+
+      "/findAllAuctionComments": {
+        "get": {
+            "tags": [
+            "Auction Comments"
+            ],
+            "summary": "find all auction comments by auction id",
+            "parameters": [{
+                "name": "auction_id",
+                "in": "query"
+                }
+            ],
+            "responses": {
+                "200": {
+                    "description": "Response will be a JSON containing the stored data"
+                }
+            }
+            }
+        },
+        
+
+      "/addAuctionPhoto": {
+        "post": {
+            "tags": [
+            "Auction Operations"
+            ],
+            "summary": "add / change photo by auction id",
+            "parameters": [{
+                "name": "auction_id",
+                "in": "query"
+                }
+            ],
+            "responses": {
+                "200": {
+                    "description": "Response will be a JSON containing the stored data"
+                }
+            }
+            }
+        },
+
+        
+
+      "/findAllExpiredAuctionItems": {
+        "get": {
+            "tags": [
+            "Expired Auction Operations"
+            ],
+            "summary": "find all expired auctions by highest bidder id (won auctions)",
+            "parameters": [{
+                "name": "highest_bidder_id",
+                "in": "query"
+                }
+            ],
+            "responses": {
+                "200": {
+                    "description": "Response will be a JSON containing the stored data"
+                }
+            }
+            }
+        }
+
+    },
+
+
+
+
+
+
+
+
+
+
+
+        "definitions": {
+
+            "AddUser": {
+              "required": ["name", "_id", "companies"],
+              "properties": {
+                "user_name": {
+                    "type": "string"
+                },
+
+                "email": {
+                  "type": "string"
+                },
+
+                "user_password": {
+                    "type": "string"
+                  }
+         
+              }
+            },
+
+            "DeleteUser": {
+                "required": ["name", "_id", "companies"],
+                "properties": {
+                  "user_id": {
+                    "type": "number"
+                  }
+           
+                }
+              },
+
+              "findUser": {
+                "required": ["name", "_id", "companies"],
+                "properties": {
+                  "user_name": {
+                      "type": "string"
+                  },
+  
+                  "email": {
+                    "type": "string"
+                  }
+                }
+              },
+
+              "findUserAndPassword": {
+                "required": ["name", "_id", "companies"],
+                "properties": {
+
+                  "email": {
+                    "type": "string"
+                  },
+  
+                  "user_password": {
+                      "type": "string"
+                    }
+           
+                }
+              },
+
+              "addAuctionItem": {
+                "required": ["name", "_id", "companies"],
+                "properties": {
+                  "seller_user_id": {
+                      "type": "number"
+                  },
+  
+                  "highest_bidder_id": {
+                    "type": "number"
+                  },
+
+                  "category": {
+                    "type": "string"
+                },
+
+                "image_path": {
+                "type": "string"
+                },
+
+                "auction_title": {
+                    "type": "string"
+                },
+
+                "item_location": {
+                    "type": "string"
+                },
+
+                "item_description": {
+                    "type": "string"
+                },
+
+                "current_price": {
+                    "type": "number"
+                },
+
+                "end_date": {
+                    "type": "string"
+                }
+           
+                }
+              },
+
+              
+            "deleteAuctionItem": {
+                "required": ["name", "_id", "companies"],
+                "properties": {
+  
+                  "auction_id": {
+                    "type": "number"
+                  },
+                  "delete_image": {
+                    "type": "boolean"
+                  }
+           
+                }
+              },
+              
+
+              "placeBid": {
+                "required": ["name", "_id", "companies"],
+                "properties": {
+                  "bidder_id": {
+                    "type": "number"
+                  },
+                  "auction_id": {
+                    "type": "number"
+                  },
+                  "bid": {
+                    "type": "number"
+                  }
+           
+                }
+              },
+              
+
+              "addAuctionComment": {
+                "required": ["name", "_id", "companies"],
+                "properties": {
+                  "user_id": {
+                    "type": "number"
+                  },
+                  "auction_id": {
+                    "type": "number"
+                  },
+                  "comment_text": {
+                    "type": "string"
+                  }
+           
+                }
+              },
+
+
+              "deleteAllAuctionComments": {
+                "required": ["name", "_id", "companies"],
+                "properties": {
+
+                  "auction_id": {
+                    "type": "number"
+                  }
+           
+                }
+              },
+
+
+            "Users": {
+              "type": "array",
+              "$ref": "#/definitions/User"
+            }
+          }    
+     
+}
+    
