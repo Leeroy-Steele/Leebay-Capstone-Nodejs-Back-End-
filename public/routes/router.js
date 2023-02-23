@@ -11,6 +11,7 @@ const multer = require('multer')
 
 const storage = multer.diskStorage({
     destination: function (req, file, cb) {
+        // cb(null, '../capstone_react_frontend/public/images')   //folder to store images
         cb(null, '../capstone_react_frontend/public/images')   //folder to store images
     },
     filename: function (req, file, cb) {
@@ -21,8 +22,8 @@ const storage = multer.diskStorage({
     }
 })
 
-function storeImageURLToDatabase(fullUrlName,req){
-    auctionController.storeImageURLToDatabase(fullUrlName,req)
+function storeImageURLToDatabase(fullFileName,req){
+    auctionController.storeImageURLToDatabase(fullFileName,req)
 }
 
 const upload = multer({

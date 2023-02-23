@@ -93,8 +93,9 @@ const findAuctionItem = async (req,res)=>{
 
     let resp = auction_dbServices.findAuctionItem(auction_id)
 
-    res.json(await resp)
-    
+    if(res!==null){
+        res.json(await resp)
+    }
 }
 
 const placeBid = async (req,res)=>{
@@ -115,8 +116,24 @@ const placeBid = async (req,res)=>{
 
 
 const storeImageURLToDatabase=async(url,req)=>{
-    // console.log(req.body)
+    console.log("storeImageURLToDatabase controller here")
     let auction_id=req.query.auction_id
+
+    //get auction by auction_id
+    // let req1 = req1.query.auction_idauction_id
+    
+    // console.log(req1.query.auction_id)
+    // let resp = await findAuctionItem(req1,null)
+    // console.log("resp is ",resp)
+
+    //check auction for image path != default image
+
+
+    // unlink old image
+
+
+    // store new image path
+
     auction_dbServices.storeImageURLToDatabase(url,auction_id)
 }
 

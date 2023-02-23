@@ -1,5 +1,5 @@
 
-const sql = require("../../index")
+const sql = require("../../server")
 
 //// users table actions
 

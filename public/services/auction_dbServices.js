@@ -1,6 +1,6 @@
 
 const { query } = require("express")
-const sql = require("../../index")
+const sql = require("../../server")
 
 let addAuctionItem = async (
     seller_user_id,
@@ -50,7 +50,9 @@ let addAuctionItem = async (
 
 let storeImageURLToDatabase=async(url,auction_id)=>{
 
-    let fullFilePath = `../images/${url}`
+    // let fullFilePath = `../images/${url}`
+      let fullFilePath = `images/${url}`
+ 
 
     return new Promise((resolve, reject) => {
 
